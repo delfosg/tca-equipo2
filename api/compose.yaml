@@ -33,7 +33,7 @@ services:
     ports:
       - 3000:3000
     working_dir: /opt/
-    command: ["/usr/bin/api-equipo2"]
+    command: ["/usr/bin/api-axum"]
     restart: on-failure
     depends_on:
       - db

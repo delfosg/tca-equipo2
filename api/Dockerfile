@@ -14,8 +14,8 @@ FROM --platform=linux/amd64 debian:buster-slim
 
 WORKDIR /usr/bin
 
-COPY --from=builder /tmp/target/release/api-equipo2 .
+COPY --from=builder /tmp/target/release/api-axum .
 
 EXPOSE 3000
 
-CMD ["/usr/bin/api-equipo2"]
+CMD ["/usr/bin/api-axum"]
