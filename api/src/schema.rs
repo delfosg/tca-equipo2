@@ -1,5 +1,5 @@
-use ::serde::{Deserialize, Serialize};
 use chrono::NaiveDate;
+use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize)]
 pub struct CreateHotelGoodPrediction {
