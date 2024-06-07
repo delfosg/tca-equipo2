@@ -1,0 +1,41 @@
+version: "3.8"
+services:
+  db:
+    platform: linux/amd64
+    image: ghcr.io/tursodatabase/libsql-server:latest
+    container_name: "libsql"
+    volumes:
+      - ./libsql:/mnt/libsql
+    environment:
+      - SQL_NODE=replica
+      - SQLD_DB_PATH=/mnt/libsql/sqld
+    ports:
+      - 8080:8080
+      - 5001:5001
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:8080"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  api:
+    platform: linux/amd64
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: axum
+    volumes:
+      - ./libsql:/mnt/libsql
+    environment:
+      - DATABASE_URL=/mnt/libsql/sqld/dbs/default/data
+      - SQLX_OFFLINE=true
+    ports:
+      - 3000:3000
+    working_dir: /opt/
+    command: ["/usr/bin/api-equipo2"]
+    restart: on-failure
+    depends_on:
+      - db
+    links:
+      - db
