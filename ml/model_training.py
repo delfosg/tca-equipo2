@@ -21,7 +21,7 @@ for empresa in empresas:
     for y_name in y_names:
 
         # CSV file path
-        file_path = f'empresa_{empresa}_{y_name[-3:]}.csv'
+        file_path = f'empresa_{empresa}_{y_name[-3:]}.csv' #[dbo].[goods_pretraining_data]
         
 
         # initialize MLflow
@@ -214,9 +214,9 @@ for empresa in empresas:
             y_test = np.log(y_test) 
             
             # Save the scaler to a file
-            joblib.dump(scaler, f"/Users/delfosg/Documents/hoteles/project/code/model_dev/last_results/scaler_{empresa}_{y_name[-3:]}.pkl")
+            joblib.dump(scaler, f"scaler_{empresa}_{y_name[-3:]}.pkl")
             # Log the scaler file as an artifact
-            mlflow.log_artifact(f"/Users/delfosg/Documents/hoteles/project/code/model_dev/last_results/scaler_{empresa}_{y_name[-3:]}.pkl")
+            mlflow.log_artifact(f"scaler_{empresa}_{y_name[-3:]}.pkl")
                     
             # Perform hyperparameter tuning
             trials = Trials()
@@ -248,8 +248,8 @@ for empresa in empresas:
 
             #ARTIFACT
             # resutlt table
-            result.sort_values(by='ABS_ERROR').to_csv(f'/Users/delfosg/Documents/hoteles/project/code/model_dev/last_results/result_{empresa}_{y_name[-3:]}.csv')
-            mlflow.log_artifact(f'/Users/delfosg/Documents/hoteles/project/code/model_dev/last_results/result_{empresa}_{y_name[-3:]}.csv')
+            result.sort_values(by='ABS_ERROR').to_csv(f'result_{empresa}_{y_name[-3:]}.csv')
+            mlflow.log_artifact(f'result_{empresa}_{y_name[-3:]}.csv')
             
             result.resample('W').mean().iloc[:,:2].plot(style='-', figsize=(10,5), title=f'test_empresa_2')
             y_test.shape
